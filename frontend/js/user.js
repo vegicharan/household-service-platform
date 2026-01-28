@@ -1,4 +1,4 @@
-const API = "http://localhost:5000";
+const API = "https://household-service-platform-zyuo.onrender.com/";
 
 // Get verified workers
 async function getWorkers() {
