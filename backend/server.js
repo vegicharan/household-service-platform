@@ -22,11 +22,24 @@ const { db } = require("./config/firebase");
 const app = express();
 
 // =====================
-// MIDDLEWARE (ORDER MATTERS)
+// MIDDLEWARE (CORRECT ORDER)
 // =====================
-app.use(express.json()); // Parse JSON body
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded body
-app.use(cors()); // Allow cross-origin requests
+
+// Parse request body
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// ✅ Proper CORS configuration (IMPORTANT)
+app.use(
+  cors({
+    origin: "*", // allow all origins (OK for college/demo project)
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+// ✅ Handle preflight requests (THIS FIXES YOUR ERROR)
+app.options("*", cors());
 
 // =====================
 // ROUTES
