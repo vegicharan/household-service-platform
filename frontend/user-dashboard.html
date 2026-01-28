@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="container">
+    <h2>User Dashboard</h2>
+
+    <h3>Find Workers</h3>
+    <input id="skill" placeholder="Enter service (plumber)" />
+    <button onclick="getWorkers()">Search</button>
+
+    <ul id="workerList"></ul>
+
+    <h3>Create Job</h3>
+    <input id="userId" placeholder="User UID" />
+    <input id="serviceType" placeholder="Service type" />
+    <input id="price" placeholder="Base price" />
+    <button onclick="createJob()">Create Job</button>
+  </div>
+
+  <script>
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user || user.role !== "user") {
+    window.location.href = "login.html";
+  }
+</script>
+
+
+  <script src="js/user.js"></script>
+</body>
+</html>
+

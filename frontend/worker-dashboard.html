@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Worker Dashboard</title>
+</head>
+<body>
+  <h2>Worker Dashboard</h2>
+
+  <h3>Propose Price</h3>
+  <input id="jobId" placeholder="Job ID" /><br><br>
+  <input id="workerId" placeholder="Worker ID" /><br><br>
+  <input id="proposedPrice" placeholder="Proposed Price" /><br><br>
+  <button onclick="proposePrice()">Propose</button>
+
+  <h3>Complete Job</h3>
+  <input id="completeJobId" placeholder="Job ID" /><br><br>
+  <button onclick="completeJob()">Mark Completed</button>
+
+  <script>
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user || user.role !== "worker") {
+    window.location.href = "login.html";
+  }
+</script>
+
+
+
+  <script src="js/worker.js"></script>
+</body>
+</html>

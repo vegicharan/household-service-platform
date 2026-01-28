@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+</head>
+<body>
+  <h2>Admin Dashboard</h2>
+
+  <h3>Verify Worker</h3>
+  <input id="verifyWorkerId" placeholder="Worker ID" />
+  <button onclick="verifyWorker()">Verify</button>
+
+  <h3>Release Support</h3>
+  <input id="supportWorkerId" placeholder="Worker ID" /><br><br>
+  <input id="amount" placeholder="Support Amount" /><br><br>
+  <button onclick="releaseSupport()">Release</button>
+
+  <script>
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user || user.role !== "admin") {
+    window.location.href = "login.html";
+  }
+</script>
+
+
+  <script src="js/admin.js"></script>
+</body>
+</html>
