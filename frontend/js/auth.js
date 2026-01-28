@@ -16,7 +16,7 @@ async function login() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({ email })
-    });
+    })
 
     const data = await res.json();
     console.log("Login response:", data);
