@@ -1,4 +1,5 @@
-const API = "https://household-service-platform-zyuo.onrender.com/";
+const API = "https://household-backend.onrender.com";
+
 
 async function login() {
   const email = document.getElementById("email").value;
