@@ -1,45 +1,40 @@
-// =====================
-// IMPORTS
-// =====================
 const express = require("express");
-const cors = require("cors");
-
-// Initialize Firebase Admin SDK
 require("./config/firebase");
 
-// Route imports
 const authRoutes = require("./routes/auth");
 const workerRoutes = require("./routes/worker");
 const adminRoutes = require("./routes/admin");
 const userRoutes = require("./routes/user");
-
-// Firestore DB (optional test usage)
 const { db } = require("./config/firebase");
 
-// =====================
-// APP INIT
-// =====================
 const app = express();
 
 // =====================
-// MIDDLEWARE (CORRECT ORDER)
+// BODY PARSERS
 // =====================
-
-// Parse request body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Proper CORS configuration (IMPORTANT)
-app.use(
-  cors({
-    origin: "*", // allow all origins (OK for college/demo project)
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+// =====================
+// MANUAL CORS (FIXES RENDER ISSUE)
+// =====================
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
 
-// ✅ Handle preflight requests (THIS FIXES YOUR ERROR)
-app.options("*", cors());
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
 
 // =====================
 // ROUTES
@@ -52,30 +47,17 @@ app.use("/api/users", userRoutes);
 // =====================
 // TEST ROUTES
 // =====================
-
-// Health check
 app.get("/", (req, res) => {
   res.send("Household Service Platform API (Firebase) is running");
 });
 
-// Firestore test (optional)
 app.get("/test-db", async (req, res) => {
-  try {
-    await db.collection("test").add({
-      status: "Firebase connected",
-      time: new Date(),
-    });
-    res.send("Firestore working");
-  } catch (error) {
-    res.status(500).send("Firestore error: " + error.message);
-  }
+  await db.collection("test").add({ status: "ok" });
+  res.send("Firestore working");
 });
 
 // =====================
-// SERVER START
+// START SERVER
 // =====================
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log("Server running on port", PORT));
